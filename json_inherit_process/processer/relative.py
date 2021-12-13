@@ -1,4 +1,3 @@
-import copy
 from ..helper import have_number, separate_value_unit
 
 
