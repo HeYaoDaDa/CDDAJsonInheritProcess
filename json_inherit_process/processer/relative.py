@@ -2,8 +2,10 @@ from ..helper import have_number, separate_value_unit
 
 
 def process_relative(processed_json_object: dict, inherit_templet: dict):
-    process_relative_unit(inherit_templet["relative"], processed_json_object)
-    del inherit_templet["relative"]
+    if "relative" in inherit_templet:
+        process_relative_unit(
+            inherit_templet["relative"], processed_json_object)
+        del inherit_templet["relative"]
 
 
 def process_relative_unit(sub: dict, super: dict):

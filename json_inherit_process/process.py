@@ -1,4 +1,6 @@
 import copy
+
+from json_inherit_process.helper import test1
 from .processer.extend import process_extend
 from .processer.delete import process_delete
 from .processer.proportional import process_proportional
@@ -19,7 +21,8 @@ def process_json_inheritance(sub_json_object: dict, super_json_object: dict):
 
     inherit_templet = copy.deepcopy(sub_json_object)
 
-    del inherit_templet["copy-from"]
+    if "copy-from" in inherit_templet:
+        del inherit_templet["copy-from"]
 
     process_extend(processed_json_object, inherit_templet)
     process_delete(processed_json_object, inherit_templet)
@@ -33,3 +36,37 @@ def process_json_inheritance(sub_json_object: dict, super_json_object: dict):
         del processed_json_object["abstract"]
 
     return processed_json_object
+
+
+def test():
+    sub = {
+        "id": "sub",
+        "type": "one",
+        "extend": {
+            "flags": "flags3"
+        },
+        "delete": {
+            "flags": "flags1"
+        },
+        "proportional": {
+            "num1": 0.2
+        },
+        "relative": {
+            "num": 10
+        }
+    }
+    super = {
+        "abstract": "super",
+        "id": "super1",
+        "flags": ["flags1", "flags2"],
+        "num": 10,
+        "num1": 100
+    }
+    result = process_json_inheritance(sub, super)
+
+    assert result == {'id': 'sub', 'flags': [
+        'flags2', 'flags3'], 'num': 20, 'num1': 20.0, 'looks_like': 'super1', 'type': 'one'}
+
+
+if __name__ == "__main__":
+    test()
