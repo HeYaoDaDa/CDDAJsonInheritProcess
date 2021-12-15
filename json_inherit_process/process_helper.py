@@ -1,3 +1,4 @@
+import re
 from .processers.extend import process_extend
 from .processers.relative import process_relative
 from .processers.proportional import process_proportional
@@ -32,8 +33,10 @@ def process_json_inheritance(sub_json_object: dict, super_json_object: dict):
     else:
         processed_json_object = copy.deepcopy(super_json_object)
 
-    if "abstract" in processed_json_object:
-        del processed_json_object["abstract"]
+    id_parts = ["id", "result", "id_suffix", "abstract"]
+    for id_part in id_parts:
+        if id_part in processed_json_object:
+            del processed_json_object[id_part]
 
     # sub json have look like super
     if "id" in processed_json_object:
@@ -53,6 +56,15 @@ def process_json_inheritance(sub_json_object: dict, super_json_object: dict):
         processed_json_object[key] = value
 
     return processed_json_object
+
+
+def equal_id(super_id: str, super_ids):
+    if type(super_ids) is str:
+        return super_id == super_ids
+    elif type(super_ids) is list:
+        return super_id in super_ids
+    else:
+        raise Exception("Wrong id type is ", type(super_ids))
 
 
 def get_json_type_str(json_object: dict) -> str:

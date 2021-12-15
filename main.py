@@ -41,5 +41,7 @@ my_processer.process_json_inheritance_dir(args.data_dir[0], args.out_dir)
 print(len(my_processer.wait_process_json_file_dict.keys()))
 for k, v in my_processer.wait_process_json_file_dict.items():
     print("{}:{}".format(k, v["wait_ids"]))
-    # for i in v["json_objects"]:
-    #     print(i)
+for k, v in my_processer.wait_process_json_list_dict.items():
+    print(k)
+    for i in v:
+        print("   ", i["copy-from"], get_json_id_str(i))

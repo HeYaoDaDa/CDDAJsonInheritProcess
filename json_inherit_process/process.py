@@ -1,7 +1,7 @@
 import os
 import json
 
-from .process_helper import process_json_inheritance, add_json_to_processed_json_list_dict, get_json_id_str, dump_json, get_json_type_str
+from .process_helper import process_json_inheritance, add_json_to_processed_json_list_dict, get_json_id_str, dump_json, get_json_type_str, equal_id
 
 
 class processer:
@@ -48,7 +48,7 @@ class processer:
             for index in range(len(self.wait_process_json_list_dict[new_processed_json_object_type]))[::-1]:
                 wait_process_json_object = self.wait_process_json_list_dict[
                     new_processed_json_object_type][index]
-                if new_processed_json_object_id == wait_process_json_object["copy-from"]:
+                if equal_id(wait_process_json_object["copy-from"], new_processed_json_object_id):
                     wait_id = wait_process_json_object["wait_id"]
                     wait_file = wait_process_json_object["wait_file"]
                     del wait_process_json_object["wait_id"]
@@ -132,7 +132,7 @@ class file_processer:
             json_object)
         for index in range(len(self.current_wait_super_json_object_list))[::-1]:
             current_wait_super_json_object = self.current_wait_super_json_object_list[index]
-            if new_processed_json_object_type == get_json_type_str(current_wait_super_json_object) and new_processed_json_object_id == current_wait_super_json_object["copy-from"]:
+            if new_processed_json_object_type == get_json_type_str(current_wait_super_json_object) and equal_id(current_wait_super_json_object["copy-from"], new_processed_json_object_id):
                 wait_id = current_wait_super_json_object["wait_id"]
                 del current_wait_super_json_object["wait_id"]
                 processed_json_object = process_json_inheritance(
@@ -160,11 +160,11 @@ class file_processer:
         super_id = json_object["copy-from"]
         json_type = get_json_type_str(json_object)
         for current_json_object in self.current_processed_json_object_list[::-1]:
-            if json_type == get_json_type_str(current_json_object) and super_id == get_json_id_str(current_json_object):
+            if json_type == get_json_type_str(current_json_object) and equal_id(super_id, get_json_id_str(current_json_object)):
                 return current_json_object
         if json_type in self.processed_json_object_map.keys():
             for processed_json_object in self.processed_json_object_map[json_type][::-1]:
-                if super_id == get_json_id_str(processed_json_object):
+                if equal_id(super_id, get_json_id_str(processed_json_object)):
                     return processed_json_object
 
     def process(self):
