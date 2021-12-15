@@ -1,4 +1,3 @@
-import re
 from .processers.extend import process_extend
 from .processers.relative import process_relative
 from .processers.proportional import process_proportional
@@ -63,11 +62,15 @@ def equal_id(super_id: str, super_ids):
         return super_id == super_ids
     elif type(super_ids) is list:
         return super_id in super_ids
+    elif super_ids == None:
+        return False
     else:
         raise Exception("Wrong id type is ", type(super_ids))
 
 
 def get_json_type_str(json_object: dict) -> str:
+    if "type" not in json_object:
+        return None
     json_type = json_object["type"]
     if json_type in item_types:
         json_type = "item_type"

@@ -130,6 +130,9 @@ class file_processer:
             json_object)
         new_processed_json_object_type = get_json_type_str(
             json_object)
+        if new_processed_json_object_id == None or new_processed_json_object_type == None:
+            return
+        processed_json_object_list = []
         for index in range(len(self.current_wait_super_json_object_list))[::-1]:
             current_wait_super_json_object = self.current_wait_super_json_object_list[index]
             if new_processed_json_object_type == get_json_type_str(current_wait_super_json_object) and equal_id(current_wait_super_json_object["copy-from"], new_processed_json_object_id):
@@ -138,8 +141,12 @@ class file_processer:
                 processed_json_object = process_json_inheritance(
                     current_wait_super_json_object, json_object)
                 del self.current_wait_super_json_object_list[index]
-                self.add_processed_json_list_dict(
-                    processed_json_object, wait_id)
+                # TODO
+                # self.add_processed_json_list_dict(processed_json_object)
+                processed_json_object_list.append(
+                    (processed_json_object, wait_id))
+        for item in processed_json_object_list:
+            self.add_processed_json_list_dict(item)
 
     def process_json_inheritance_object(self, json_object: dict) -> dict:
         if "copy-from" not in json_object:

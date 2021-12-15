@@ -9,6 +9,12 @@ def process_relative(processed_json_object: dict, inherit_templet: dict):
 
 
 def process_relative_unit(sub: dict, super: dict):
+    # fuck to_hit
+    if type(sub) is int:
+        value = sub
+        sub = dict()
+        for key in super.keys():
+            sub[key] = value
     for key, value in sub.items():
         if key in super:
             if type(super[key]) is dict:
