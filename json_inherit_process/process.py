@@ -45,6 +45,7 @@ class processer:
         new_processed_json_object_type = get_json_type_str(
             new_processed_json_object)
         if new_processed_json_object_type in self.wait_process_json_list_dict.keys():
+            processed_json_object_list = []
             for index in range(len(self.wait_process_json_list_dict[new_processed_json_object_type]))[::-1]:
                 wait_process_json_object = self.wait_process_json_list_dict[
                     new_processed_json_object_type][index]
@@ -56,9 +57,11 @@ class processer:
                     processed_json_object = process_json_inheritance(
                         wait_process_json_object, new_processed_json_object)
                     del self.wait_process_json_list_dict[new_processed_json_object_type][index]
-                    self.add_processed_json_list_dict(processed_json_object)
+                    processed_json_object_list.append(processed_json_object)
                     self.process_wait_file(
                         processed_json_object, wait_id, wait_file)
+            for processed_json_object in processed_json_object_list:
+                self.add_processed_json_list_dict(processed_json_object)
 
     def process_json_inheritance_file(self, json_file: str, out_file: str):
         with open(json_file, encoding="utf-8") as fp:
@@ -141,12 +144,10 @@ class file_processer:
                 processed_json_object = process_json_inheritance(
                     current_wait_super_json_object, json_object)
                 del self.current_wait_super_json_object_list[index]
-                # TODO
-                # self.add_processed_json_list_dict(processed_json_object)
                 processed_json_object_list.append(
                     (processed_json_object, wait_id))
-        for item in processed_json_object_list:
-            self.add_processed_json_list_dict(item)
+        for processed_json_object, wait_id in processed_json_object_list:
+            self.add_processed_json_list_dict(processed_json_object, wait_id)
 
     def process_json_inheritance_object(self, json_object: dict) -> dict:
         if "copy-from" not in json_object:
