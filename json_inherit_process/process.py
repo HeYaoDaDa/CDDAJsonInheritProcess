@@ -88,7 +88,10 @@ class processer:
             print("Error in JSON file: '{0}'".format(json_file))
             raise E
 
-    def process_json_inheritance_dir(self, dir_path: str,  out_path: str):
+    def process_json_inheritance_dir(self, dir_path: str, exclude_paths: list,  out_path: str):
+        if dir_path in exclude_paths:
+            print("Skipping dir: '{}'".format(dir_path))
+            return
         allfiles = sorted(os.listdir(dir_path))
         dirs = []
         for file in allfiles:
@@ -102,7 +105,7 @@ class processer:
             else:
                 print("Skipping file: '{}'".format(file))
         for json_dir, out_dir in dirs:
-            self.process_json_inheritance_dir(json_dir, out_dir)
+            self.process_json_inheritance_dir(json_dir, exclude_paths, out_dir)
 
 
 class file_processer:
