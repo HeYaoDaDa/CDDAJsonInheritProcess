@@ -7,7 +7,7 @@ import os
 import json
 
 item_types = ["GENERIC", "AMMO", "MAGAZINE", "ARMOR", "TOOL", "PET_ARMOR",
-              "BOOK", "BIONIC_ITEM", "COMESTIBLE", "GUN", "GUNMOD", "BATTERY"]
+              "BOOK", "BIONIC_ITEM", "COMESTIBLE", "GUN", "GUNMOD", "BATTERY", "TOOL_ARMOR"]
 
 
 def need_wait(json_objects: list) -> bool:
