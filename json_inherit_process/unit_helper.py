@@ -34,6 +34,8 @@ SI_list = [
 
 
 def convert_SI(val: float, unit_in: str, unit_out: str):
+    unit_in = unit_in.lower()
+    unit_out = unit_out.lower()
     SI_unit = None
     for unit in SI_list:
         if unit_in in unit and unit_out in unit:
