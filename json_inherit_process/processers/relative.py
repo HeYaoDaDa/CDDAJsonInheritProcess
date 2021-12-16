@@ -1,4 +1,5 @@
 from ..helper import have_number, separate_value_unit
+from ..unit_helper import convert_SI
 
 
 def process_relative(processed_json_object: dict, inherit_templet: dict):
@@ -38,7 +39,11 @@ def process_relative_unit(sub: dict, super: dict):
                     if suf1 == "":
                         suf1 = suf
                     if suf != suf1:
-                        print("suf:{}  suf1:{}".format(suf, suf1))
+                        print(
+                            f"need convert unit, val is {num1}, unit is {suf1}, to unit is {suf}")
+                        num1 = convert_SI(num1, suf1, suf)
+                        print(
+                            f"convert result is {num1}, unit is {suf}")
                     super[key] = str(num + num1) + " " + suf
             else:
                 super[key] += value
