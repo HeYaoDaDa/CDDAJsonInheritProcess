@@ -1,3 +1,4 @@
+import copy
 import os
 import json
 
@@ -10,11 +11,14 @@ class processer:
         self.processed_json_list_dict = processed_json_list_dict
         self.wait_process_json_list_dict = wait_process_json_list_dict
         self.wait_process_json_file_dict = wait_process_json_file_dict
+        self.current_mod_process_json_map = {}
         self.count_id = 0
 
     def add_processed_json_list_dict(self, json_object: dict):
         add_json_to_processed_json_list_dict(
             json_object, self.processed_json_list_dict)
+        add_json_to_processed_json_list_dict(
+            json_object, self.current_mod_process_json_map)
         self.process_wait_json_object(json_object)
 
     def add_wait_process_json_file_dict(self, json_objects: list, wait_ids: list, out_file: str):
