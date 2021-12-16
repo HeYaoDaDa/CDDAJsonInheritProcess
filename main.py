@@ -37,28 +37,6 @@ if os.path.exists(args.out_dir):
     shutil.rmtree(args.out_dir, True)
 os.mkdir(args.out_dir)
 
-ex_paths = ["~/Downloads/Cataclysm-DDA-master/data/mods"]
-
-for index, path in enumerate(ex_paths):
-    ex_paths[index] = os.path.expanduser(path)
-
-
-def process_mod(dir_paths: list, exclude_paths: list, out_dir: str):
-    my_processer = processer({}, {}, {})
-    for dir_path in dir_paths:
-        my_processer.process_json_inheritance_dir(
-            dir_path, exclude_paths, out_dir)
-    my_processer.clear_wait_file()
-    print(len(my_processer.wait_process_json_file_dict.keys()))
-    for k, v in my_processer.wait_process_json_file_dict.items():
-        print("{}:{}".format(k, v["wait_ids"]))
-    for k, v in my_processer.wait_process_json_list_dict.items():
-        print(k)
-        for i in v:
-            print(
-                "\tcopyt-from is {}, id is {},\n\t\t {}".format(i["copy-from"], get_json_id_str(i), i))
-    return my_processer.processed_json_list_dict
-
 
 def process_mod(my_mod: mod, dependent_json_object_map: dict, exclude_paths: list[str], out_dir: str):
     my_processer = processer(dependent_json_object_map, {}, {})
