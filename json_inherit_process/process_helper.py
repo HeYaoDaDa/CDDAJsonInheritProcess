@@ -88,6 +88,8 @@ def get_json_id_str(json_object: dict) -> str:
             result = json_object["result"]
     elif "abstract" in json_object:
         result = json_object["abstract"]
+    elif "MONSTER_FACTION" == get_json_type_str(json_object):
+        result = json_object["name"]
     return result
 
 
