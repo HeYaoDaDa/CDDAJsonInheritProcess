@@ -39,6 +39,14 @@ class processer:
             dump_json(wait_json_objects, wait_file)
             del self.wait_process_json_file_dict[wait_file]
 
+    def clear_wait_file(self):
+        for wait_file, wait_process_json_file in self.wait_process_json_file_dict.items():
+            wait_json_objects = wait_process_json_file["json_objects"]
+            for index, json_object in enumerate(wait_json_objects):
+                if type(json_object) is int:
+                    del wait_json_objects[index]
+            dump_json(wait_json_objects, wait_file)
+
     def process_wait_json_object(self, new_processed_json_object: dict):
         new_processed_json_object_id = get_json_id_str(
             new_processed_json_object)

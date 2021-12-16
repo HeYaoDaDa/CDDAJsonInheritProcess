@@ -34,7 +34,7 @@ if os.path.exists(args.out_dir):
     shutil.rmtree(args.out_dir, True)
 os.mkdir(args.out_dir)
 
-ex_paths = ["~/Downloads/Cataclysm-DDA-master/data/mods"]
+ex_paths = ["~/Downloads/Cataclysm-DDA-master/data/mods/"]
 
 for index, path in enumerate(ex_paths):
     ex_paths[index] = os.path.expanduser(path)
@@ -45,6 +45,7 @@ def process_mod(dir_paths: list, exclude_paths: list, out_dir: str):
     for dir_path in dir_paths:
         my_processer.process_json_inheritance_dir(
             dir_path, exclude_paths, out_dir)
+    my_processer.clear_wait_file()
     print(len(my_processer.wait_process_json_file_dict.keys()))
     for k, v in my_processer.wait_process_json_file_dict.items():
         print("{}:{}".format(k, v["wait_ids"]))
