@@ -39,6 +39,7 @@ def process_relative_unit(sub: dict, super: dict):
                     if suf1 == "":
                         suf1 = suf
                     if suf != suf1:
+                        # TODO need process default unit
                         print(
                             f"need convert unit, val is {num1}, unit is {suf1}, to unit is {suf}")
                         num1 = convert_SI(num1, suf1, suf)
