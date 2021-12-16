@@ -31,7 +31,7 @@ def __scan_modinfo(file: str) -> list[mod]:
     return mods
 
 
-def __find_mod(mods: list[mod], id: str) -> mod:
+def find_mod(mods: list[mod], id: str) -> mod:
     for mod in mods:
         if id == mod.id:
             return mod
@@ -43,7 +43,7 @@ def __sort_mods(mods: list[mod]) -> list[mod]:
     while len(my_mods) > 0:
         for my_mod in my_mods[::-1]:
             if len(my_mod.dependencies) == 0:
-                result.append(__find_mod(mods, my_mod.id))
+                result.append(find_mod(mods, my_mod.id))
                 my_mods.remove(my_mod)
         for my_mod in my_mods:
             for dependen in my_mod.dependencies[::-1]:
