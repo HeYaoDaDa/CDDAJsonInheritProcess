@@ -37,6 +37,9 @@ def process_json_inheritance(sub_json_object: dict, super_json_object: dict):
         if id_part in processed_json_object:
             del processed_json_object[id_part]
 
+    if "MONSTER_FACTION" == get_json_type_str(processed_json_object):
+        del processed_json_object["name"]
+
     # sub json have look like super
     if "id" in processed_json_object:
         processed_json_object["looks_like"] = processed_json_object["id"]
