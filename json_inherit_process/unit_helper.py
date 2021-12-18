@@ -41,6 +41,10 @@ SI_list = [
 def convert_SI(val: float, unit_in: str, unit_out: str):
     unit_in = unit_in.lower()
     unit_out = unit_out.lower()
+    if unit_in == "c" and unit_out == "f":
+        return convert_f(unit_in)
+    elif unit_in == "f" and unit_out == "c":
+        return convert_c(unit_in)
     SI_unit = None
     for unit in SI_list:
         if unit_in in unit and unit_out in unit:
@@ -49,6 +53,14 @@ def convert_SI(val: float, unit_in: str, unit_out: str):
     if SI_unit == None:
         raise Exception(f"No find SI_unit:{unit_in},{unit_out}")
     return val*SI_unit[unit_in]/SI_unit[unit_out]
+
+
+def convert_f(c: float) -> float:
+    return c * 1.8 + 32
+
+
+def convert_c(f: float) -> float:
+    return (f-32)/1.8
 
 
 def test():
