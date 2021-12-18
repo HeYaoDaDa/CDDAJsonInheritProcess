@@ -1,25 +1,56 @@
 from ..helper import have_number, separate_value_unit
+from ..default_value_unit import get_default_value_unit
 
 
 def process_proportional(processed_json_object: dict, inherit_templet: dict):
     if "proportional" in inherit_templet:
         processed_json_object = process_proportional_unit(
-            inherit_templet["proportional"], processed_json_object)
+            inherit_templet["proportional"],
+            processed_json_object,
+            [],
+            inherit_templet["type"],
+            processed_json_object["type"]
+        )
         del inherit_templet["proportional"]
 
 
-def process_proportional_unit(sub: dict, super: dict):
+def __process_proportional_unit_unit(key: str, value, super: dict, paths: list[str], sub_type: str, super_type: str):
+    if key in super:
+        if type(super[key]) is str:
+            if have_number(super[key]):
+                num, suf = separate_value_unit(super[key])
+                super[key] = str(num*value) + " " + suf
+        elif type(super[key]) is dict:
+            paths.append(key)
+            process_proportional_unit(
+                value, super[key], paths, sub_type, super_type
+            )
+            paths.pop()
+        else:
+            super[key] *= value
+    else:
+        default_data = get_default_value_unit(
+            super_type, paths
+        )
+        if not default_data == None:
+            print(f"-----------> find default_data {default_data}")
+            print(super_type, paths)
+            super[key] = default_data
+            __process_proportional_unit_unit(
+                key, value, super, paths, sub_type, super_type
+            )
+        else:
+            print(f"-----------> not find default_data {default_data}")
+            print(super_type, paths)
+
+
+def process_proportional_unit(sub: dict, super: dict, paths: list[str], sub_type: str, super_type: str):
     for key, value in sub.items():
-        if key in super:
-            if type(super[key]) is str:
-                if have_number(super[key]):
-                    num, suf = separate_value_unit(super[key])
-                    super[key] = str(num*value) + " " + suf
-            elif type(super[key]) is dict:
-                super[key] = process_proportional_unit(value, super[key])
-            else:
-                super[key] *= value
-    return super
+        paths.append(key)
+        __process_proportional_unit_unit(
+            key, value, super, paths, sub_type, super_type
+        )
+        paths.pop()
 
 
 def test():
