@@ -13,15 +13,6 @@ def have_number(s: str):
     return m != None
 
 
-def get_paths_str(paths: list[str]) -> str:
-    resutl = ""
-    for path in paths:
-        if len(resutl) > 0:
-            resutl += "."
-        resutl += path
-    return resutl
-
-
 def test():
     test = "324"
     assert have_number(test)

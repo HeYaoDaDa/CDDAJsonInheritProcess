@@ -1,4 +1,4 @@
-{
+data = {
     "body_part": {
         "encumbrance_limit": 100,
         "smash_efficiency": 0.5
@@ -116,3 +116,24 @@
         "move_cost": 100
     }
 }
+
+
+def get_default_value_unit(type: str, paths: list[str]):
+    paths = [type]+paths
+    return __get_default_value_unit_part(paths, data)
+
+
+def __get_default_value_unit_part(paths: list[str], current_data):
+    if type(current_data) is dict:
+        if len(paths) == 0:
+            return None
+        key = paths.pop(0)
+        if key in current_data:
+            return __get_default_value_unit_part(paths, current_data[key])
+        else:
+            return None
+    else:
+        if len(paths) == 0:
+            return current_data
+        else:
+            return None
