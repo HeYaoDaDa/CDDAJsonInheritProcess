@@ -11,6 +11,8 @@ SI_list = [
         "t": 1,
         "turn": 1,
         "turns": 1,
+        "s": 1,
+        "seconds": 1,
         "m": 60,
         "minute": 60,
         "minutes": 60,
