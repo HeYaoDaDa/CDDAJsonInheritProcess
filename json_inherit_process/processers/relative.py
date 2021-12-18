@@ -1,15 +1,21 @@
-from ..helper import have_number, separate_value_unit
+from os import path
+from ..helper import have_number, separate_value_unit, get_paths_str
 from ..unit_helper import convert_SI
 
 
 def process_relative(processed_json_object: dict, inherit_templet: dict):
     if "relative" in inherit_templet:
         process_relative_unit(
-            inherit_templet["relative"], processed_json_object)
+            inherit_templet["relative"],
+            processed_json_object,
+            [],
+            inherit_templet["type"],
+            processed_json_object["type"]
+        )
         del inherit_templet["relative"]
 
 
-def process_relative_unit(sub: dict, super: dict):
+def process_relative_unit(sub: dict, super: dict, paths: list[str], sub_type: str, super_type: str):
     # fuck to_hit
     if type(sub) is int:
         value = sub
@@ -17,9 +23,11 @@ def process_relative_unit(sub: dict, super: dict):
         for key in super.keys():
             sub[key] = value
     for key, value in sub.items():
+        paths.append(key)
         if key in super:
             if type(super[key]) is dict:
-                process_relative_unit(value, super[key])
+                process_relative_unit(
+                    value, super[key], paths, sub_type, super_type)
             elif type(super[key]) is str or type(value) is str:
                 if (type(super[key]) is str and have_number(super[key])) or (type(value) is str and have_number(value)):
                     num = 0
@@ -50,6 +58,7 @@ def process_relative_unit(sub: dict, super: dict):
                 super[key] += value
         else:
             super[key] = value
+    paths.pop()
 
 
 def test():
