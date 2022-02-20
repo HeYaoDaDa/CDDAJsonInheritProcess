@@ -119,8 +119,12 @@ data = {
 
 
 def get_default_value_unit(type: str, paths: list[str]):
-    paths = [type]+paths
-    return __get_default_value_unit_part(paths, data)
+    newPaths = [type]+paths
+    result = __get_default_value_unit_part(newPaths, data)
+    if result == None:
+        newPaths = ["generic"]+paths
+        result = __get_default_value_unit_part(newPaths, data)
+    return result
 
 
 def __get_default_value_unit_part(paths: list[str], current_data):
