@@ -45,6 +45,15 @@ def __sort_mods(mods: list[mod]) -> list[mod]:
             if len(my_mod.dependencies) == 0:
                 result.append(find_mod(mods, my_mod.id))
                 my_mods.remove(my_mod)
+            # remove no have dependen mod
+            for dependen in my_mod.dependencies:
+                hasFlag = False
+                for mod in mods:
+                    if dependen == mod.id:
+                        hasFlag = True
+                        break
+                if not hasFlag:
+                    my_mods.remove(my_mod)
         for my_mod in my_mods:
             for dependen in my_mod.dependencies[::-1]:
                 for result_mod in result:
