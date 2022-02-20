@@ -16,18 +16,18 @@ def process_relative(processed_json_object: dict, inherit_templet: dict):
         del inherit_templet["relative"]
 
 
-def __get_default_unit(type: str, paths: list[str]) -> str:
+def __get_default_unit(jsonType: str, paths: list[str]) -> str:
     default_data = get_default_value_unit(
-        type, paths
+        jsonType, paths
     )
-    print(f"-----------> find default_data {default_data}")
-    if type(default_data) is str and have_number(default_data):
+    print(f"-----------> find default_data {default_data} : {type(default_data)}")
+    if (type(default_data) is str) and have_number(default_data):
         default_value, default_unit = separate_value_unit(
             default_data)
         return(default_unit)
     else:
         raise Exception(
-            f"not find type {type}, field {paths} default value")
+            f"not find jsonType {jsonType}, field {paths} default value")
 
 
 def __process_relative_unit_unit(key: str, value: str, super: dict, paths: list[str], sub_type: str, super_type: str):
