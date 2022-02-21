@@ -65,11 +65,11 @@ def add_json_object_map(one: dict, two: dict) -> dict:
     return result
 
 
-def process_game(game_data: str, out_dir: str):
+def process_game(game_data: str, out_dir: str, is_old_game: bool):
     mods: list[mod] = get_sort_mods(game_data)
     for my_mod in mods:
         exclude_paths: list[str] = []
-        if my_mod.id == "dda":
+        if is_old_game and my_mod.id == "dda":
             my_mod.path.append(game_data)
             exclude_paths.append(os.path.join(game_data, "mods"))
         print(my_mod)
@@ -85,4 +85,4 @@ def process_game(game_data: str, out_dir: str):
 
 print("Start process.\ndata_dir is {}\nout_dir is {}."
       .format(args.data_dir, args.out_dir))
-process_game(args.data_dir[0], args.out_dir)
+process_game(args.data_dir[0], args.out_dir, False)
