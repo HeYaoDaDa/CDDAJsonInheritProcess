@@ -25,9 +25,17 @@ def __scan_modinfo(file: str) -> list[mod]:
         if type(jsondata) is list:
             for jsondata_item in jsondata:
                 if jsondata_item["type"] == "MOD_INFO":
-                    mods.append(mod(jsondata_item, os.path.dirname(file)))
+                    new_mod: mod = mod(jsondata_item, os.path.dirname(file))
+                    if new_mod.obsolete:
+                        print(f"remove obsolete mod: {new_mod.name}")
+                    else:
+                        mods.append(new_mod)
         elif type(jsondata) is dict:
-            mods.append(mod(jsondata, os.path.dirname(file)))
+            new_mod: mod = mod(jsondata, os.path.dirname(file))
+            if new_mod.obsolete:
+                print(f"remove obsolete mod: {new_mod.name}")
+            else:
+                mods.append(new_mod)
     return mods
 
 
