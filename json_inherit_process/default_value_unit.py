@@ -56,13 +56,22 @@ data = {
         "insulation": 1,
         "price": "0 usd",
         "price_postapoc": "0 usd",
+        "cutting": 0,
+        "bashing": 0,
         "seed_data": {
             "seeds": True,
             "fruit_div": 1
         }
     },
+    "ammo": {
+        "dispersion": 0,
+        "damage": {
+            "armor_penetration": 0
+        }
+    },
     "armor": {
-        "weight_capacity_modifier": 1
+        "weight_capacity_modifier": 1,
+        "encumbrance": 0
     },
     "comestible": {
         "monotony_penalty": 2,
@@ -71,7 +80,8 @@ data = {
     "gun": {
         "blackpowder_tolerance": 8,
         "consume_chance": 10000,
-        "consume_divisor": 1
+        "consume_divisor": 1,
+        "reload": 0
     },
     "furniture": {
         "bonus_fire_warmth_feet": 300,
@@ -114,12 +124,18 @@ data = {
     },
     "field_type": {
         "move_cost": 100
+    },
+    "monster": {
+        "attack_cost": 100,
+        "weigth": 0,
+        "morale": 100,
+        "melee_dice_sides": 0
     }
 }
 
 
 def get_default_value_unit(type: str, paths: list[str]):
-    newPaths = [type]+paths
+    newPaths = [type.lower()]+paths
     result = __get_default_value_unit_part(newPaths, data)
     if result == None:
         newPaths = ["generic"]+paths

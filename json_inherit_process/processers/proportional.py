@@ -21,25 +21,16 @@ def __process_proportional_unit_unit(key: str, value, super: dict, paths: list[s
                 num, suf = separate_value_unit(super[key])
                 super[key] = str(num*value) + " " + suf
         elif type(super[key]) is dict:
-            paths.append(key)
             process_proportional_unit(
                 value, super[key], paths, sub_type, super_type
             )
-            paths.pop()
         else:
             super[key] *= value
     else:
         default_data = get_default_value_unit(
             super_type, paths
         )
-        if not default_data == None:
-            print(f"-----------> find default_data {default_data}")
-            print(super_type, paths)
-            super[key] = default_data
-            __process_proportional_unit_unit(
-                key, value, super, paths, sub_type, super_type
-            )
-        else:
+        if default_data == None:
             print("-----------> not find default_data")
             print(super_type, paths)
 

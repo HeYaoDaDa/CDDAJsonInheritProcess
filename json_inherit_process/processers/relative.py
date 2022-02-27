@@ -20,7 +20,6 @@ def __get_default_unit(jsonType: str, paths: list[str]) -> str:
     default_data = get_default_value_unit(
         jsonType, paths
     )
-    print(f"-----------> find default_data {default_data} : {type(default_data)}")
     if (type(default_data) is str) and have_number(default_data):
         default_value, default_unit = separate_value_unit(
             default_data)
@@ -33,10 +32,8 @@ def __get_default_unit(jsonType: str, paths: list[str]) -> str:
 def __process_relative_unit_unit(key: str, value: str, super: dict, paths: list[str], sub_type: str, super_type: str):
     if key in super:
         if type(super[key]) is dict:
-            paths.append(key)
             process_relative_unit(
                 value, super[key], paths, sub_type, super_type)
-            paths.pop()
         elif type(super[key]) is str or type(value) is str:
             if (type(super[key]) is str and have_number(super[key])) or (type(value) is str and have_number(value)):
                 num = 0
@@ -71,8 +68,6 @@ def __process_relative_unit_unit(key: str, value: str, super: dict, paths: list[
             super_type, paths
         )
         if not default_data == None:
-            print(f"-----------> find default_data {default_data}")
-            print(super_type, paths)
             super[key] = default_data
             __process_relative_unit_unit(
                 key, value, super, paths, sub_type, super_type
