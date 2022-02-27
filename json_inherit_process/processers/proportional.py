@@ -40,7 +40,7 @@ def __process_proportional_unit_unit(key: str, value, super: dict, paths: list[s
                 key, value, super, paths, sub_type, super_type
             )
         else:
-            print(f"-----------> not find default_data {default_data}")
+            print("-----------> not find default_data")
             print(super_type, paths)
 
 
